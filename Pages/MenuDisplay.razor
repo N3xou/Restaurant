@@ -1,0 +1,100 @@
+﻿@inherits Microsoft.AspNetCore.Components.ComponentBase
+@inject IMenuService _menuService
+
+@page "/menu"
+
+<div class="menu-container">
+    @if (MenuRows != null)
+    {
+        @foreach (var row in MenuRows)
+        {
+            <div class="row">
+                @foreach (var product in row)
+                {
+                    <div class="col">
+                        <h4>@product.Name</h4>
+                        <div class="description">@product.Description</div>
+                        <img src="/images/@product.ImgPath" alt="Product Image" width="200" height="200" />
+                        <p>Price: @product.Price</p>
+                        
+                        <button @onclick="() => AddToCart(product.Id,product)">Add to Cart</button>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+<button class="cart-toggle-button" @onclick="ToggleCart">Toggle Cart</button>
+@if (CartProducts.OrderItems != null)
+{
+    <div class="cart-overlay @(IsCartVisible ? "visible" : "")">
+        @foreach (var product in CartProducts.OrderItems)
+        {
+            <h4>product.Name</h4>
+            <img src="/images/@product.ImgPath" alt="Product Image" width="200" height="200" />
+            <p>Price: @product.Price</p>
+
+        }
+        <p>Total Price: CardProducts.TotalPrice</p>
+        <!-- Cart component content here -->
+    </div>
+}
+@code {
+
+    public List<ProductModel> Menu { get; set; }
+
+
+    //public EventCallback<int> AddToCartClicked { get; set; }
+
+    private List<List<ProductModel>> MenuRows { get; set; }
+    public OrderModel CartProducts = new OrderModel();
+    private bool IsCartVisible { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Menu = await _menuService.GetAll();
+        ArrangeMenuIntoRows();
+    }
+
+    
+
+    private void ToggleCart()
+    {
+        IsCartVisible = !IsCartVisible;
+    }
+    private void ArrangeMenuIntoRows()
+    {
+        MenuRows = new List<List<ProductModel>>();
+        List<ProductModel> currentRow = new List<ProductModel>();
+
+        foreach (var product in Menu)
+        {
+            currentRow.Add(product);
+
+            if (currentRow.Count == 2)
+            {
+                MenuRows.Add(currentRow);
+
+                currentRow = new List<ProductModel>();
+            }
+        }
+
+        if (currentRow.Count > 0)
+        {
+            MenuRows.Add(currentRow);
+        }
+    }
+    private void AddToCart(int productId,ProductModel product)
+    {
+        CartProducts.OrderItems.Add(product);
+        CartProducts.ProductIds += productId.ToString();
+    }
+    //private async Task AddToCart(int productId, ProductModel product)
+    //{
+    //    await AddToCartClicked.InvokeAsync(productId);
+    //    CartProducts.OrderItems.Add(product);
+    //    CartProducts.ProductIds += productId.ToString();
+
+    //}
+
+}
