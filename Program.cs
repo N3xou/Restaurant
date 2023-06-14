@@ -1,6 +1,7 @@
 global using Restaurant.Models;
 global using Restaurant.Data;
 global using Restaurant.Services.MenuServices;
+global using Restaurant.Services.CartServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.OpenApi.Models;
@@ -17,7 +18,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IMenuService, MenuService>();
+builder.Services.AddScoped<ICartService, CartService>();
+
 
 builder.Services.AddHttpContextAccessor();
 

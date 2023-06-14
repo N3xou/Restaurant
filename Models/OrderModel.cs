@@ -7,7 +7,7 @@
 
         public float TotalPrice {
             get {
-                return OrderItems.Sum(item => item.Price);
+                return (float)Math.Round(OrderItems.Sum(item => item.Price), 2);
             }
         }
 

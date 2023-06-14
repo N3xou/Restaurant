@@ -68,13 +68,15 @@ a, .btn-link {
     }
 
 .description {
-   /* grid-row: 3;
-    grid-column: 2;*/
+    grid-row: 3;
+    grid-column: 2;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    max-width: 70%;
+    max-width: 30%;
+    flex-grow: 1;
+    
 }
 .cart-toggle-button {
     position: fixed;
@@ -89,7 +91,7 @@ a, .btn-link {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 35%;
+    height: 40  %;
     background-color: #007bff; /* Replace with desired color */
     opacity: 1;
     display: none;
@@ -99,28 +101,108 @@ a, .btn-link {
     .cart-overlay.visible {
         display: block;
       }
+.cart-header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+     /* Adjust the background color as needed */
+    z-index: 1;  /* Ensure the header is on top of other items */
+    /* Add desired styles for the cart header */
+}
+.cart-content{
+    position:relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-size: 35px;
+    /* Add desired styles for the close button */
+}
+.cart-items {
+    display: flex;
+    overflow-x: auto;
+    padding: 1rem;
+    /* Add desired styles for the cart items container */
+}
+
+
+.cart-item {
+    flex-shrink: 0;
+    margin-right: 1rem;
+    align-items: center;
+}
+
+
+.cart-footer {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+    
+    z-index: 1; /* Ensure the footer is on top of other items */
+    /* Add desired styles for the cart footer */
+}
+
+.total-price {
+    position: sticky;
+    top: 0;
+    margin-right: 10px;
+    align-self: center;
+    font-size: 24px;
+    /* Add desired styles for the total price section */
+}
+
+.order-button {
+    position: sticky;
+    top: 0;
+    text-align: right;
+    font-size: 30px;
+    margin-bottom:10px;
+    /* Add desired styles for the order button section */
+}
+.image-description {
+    display: flex;
+    align-items: center;
+}
+
+    .image-description img {
+        margin-right: 10px;
+    }
+
 
 /*.menu-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-}
+}*/
 
-.row {
+/*.row {
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: 300px;*/ /* Adjust the height as needed */
-    /*gap: 20px;
-}
+    grid-auto-rows: 300px;  Adjust the height as needed 
+    gap: 20px;
+}*/
 
-.col {
+/*.col {
     display: grid;
     grid-template-rows: auto auto 1fr auto;
     gap: 10px;
     padding: 10px;
     border: 1px solid #ccc;
-}
-
+}*/
+/*
 .image-container {
     display: flex;
     justify-content: center;
@@ -129,16 +211,4 @@ a, .btn-link {
     padding-bottom: 100%;
     position: relative;
 }
-
-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.description {
-    grid-row: 3;
-}*/
+*/

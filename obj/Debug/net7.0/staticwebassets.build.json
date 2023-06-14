@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "aEV7XAtbKJ1VHxk+wWFzcViikBKaap3Ms0mhnwfFZqw=",
+  "Hash": "YjkdTrLWJSush7BKCT24jYqgT9cp9GpZYvaPDNZeVKY=",
   "Source": "Restaurant",
   "BasePath": "_content/Restaurant",
   "Mode": "Default",
@@ -355,6 +355,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\FriedChickenJ.jfif"
+    },
+    {
+      "Identity": "C:\\Users\\Yami\\Desktop\\x\\Prog\\Restaurant\\wwwroot\\js\\CustomInterop.js",
+      "SourceId": "Restaurant",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Yami\\Desktop\\x\\Prog\\Restaurant\\wwwroot\\",
+      "BasePath": "_content/Restaurant",
+      "RelativePath": "js/CustomInterop.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\CustomInterop.js"
     }
   ]
 }

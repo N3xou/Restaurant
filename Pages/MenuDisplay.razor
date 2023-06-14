@@ -1,5 +1,8 @@
 ﻿@inherits Microsoft.AspNetCore.Components.ComponentBase
 @inject IMenuService _menuService
+@inject ICartService _cartService
+@inject IJSRuntime JSRuntime;
+@inject NavigationManager NavigationManager
 
 @page "/menu"
 
@@ -13,12 +16,13 @@
                 {
                     <div class="col">
                         <h4>@product.Name</h4>
-                        <div class="description">@product.Description</div>
-                        <img src="/images/@product.ImgPath" alt="Product Image" width="200" height="200" />
+                        <div class="image-description">
+                            <img src="/images/@product.ImgPath" alt="Product Image" width="200" height="200" />
+                            <div class="description">@product.Description</div>
+                        </div>
                         <p>Price: @product.Price</p>
-                        
-                        <button @onclick="() => AddToCart(product.Id,product)">Add to Cart</button>
-                    </div>
+                        <button @onclick="() => AddToCart(product.Id, product)">Add to Cart</button>
+                    </div>  
                 }
             </div>
         }
@@ -28,16 +32,33 @@
 @if (CartProducts.OrderItems != null)
 {
     <div class="cart-overlay @(IsCartVisible ? "visible" : "")">
-        @foreach (var product in CartProducts.OrderItems)
-        {
-            <h4>product.Name</h4>
-            <img src="/images/@product.ImgPath" alt="Product Image" width="200" height="200" />
-            <p>Price: @product.Price</p>
+        <div class="cart-header">
+            <h1>Cart</h1>
+            <button class="close-button " @onclick="ToggleCart">&#10005</button>
+        </div>
+        <div class="cart-items">
+            @foreach (var product in CartProducts.OrderItems)
+            {
+                <div class="cart-item">
+                    <h4>@product.Name</h4>
+                    <img src="/images/@product.ImgPath" alt="Product Image" width="200" height="200" />
+                    <p style="font-size: 22px;">Price: @product.Price</p>
+                    <button @onclick="() => Remove(product)"> Remove</button>
 
-        }
-        <p>Total Price: CardProducts.TotalPrice</p>
-        <!-- Cart component content here -->
+                </div>
+            }
+        </div>
+        <div class="cart-footer">
+            <div class="total-price">
+                <p>Total Price: @CartProducts.TotalPrice</p>
+            </div>
+            <div class="order-button">
+                <button @onclick="PlaceOrder">Order</button>
+            </div>
+        </div>
     </div>
+
+
 }
 @code {
 
@@ -53,10 +74,15 @@
     protected override async Task OnInitializedAsync()
     {
         Menu = await _menuService.GetAll();
+        Menu = Menu.OrderBy(item => item.Name).ToList();
         ArrangeMenuIntoRows();
     }
 
-    
+    private void Remove(ProductModel product)
+    {
+        CartProducts.OrderItems.Remove(product);
+
+    }
 
     private void ToggleCart()
     {
@@ -87,7 +113,8 @@
     private void AddToCart(int productId,ProductModel product)
     {
         CartProducts.OrderItems.Add(product);
-        CartProducts.ProductIds += productId.ToString();
+        //JSRuntime.InvokeVoidAsync("showPopup", "Product added to cart");
+
     }
     //private async Task AddToCart(int productId, ProductModel product)
     //{
@@ -96,5 +123,25 @@
     //    CartProducts.ProductIds += productId.ToString();
 
     //}
+    private async void PlaceOrder()
+    {
+        if (CartProducts.OrderItems.Count > 0)
+        {
+
+                foreach (var product in CartProducts.OrderItems)
+                {
+                    CartProducts.ProductIds = CartProducts.ProductIds + " " + product.Id.ToString();
+                }
+                int idNumber = await _cartService.Order(CartProducts);
+                await JSRuntime.InvokeVoidAsync("showPopup", "Successfully ordered, your order number is " + idNumber);
+                NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+           
+            
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("showPopup", "Cart is empty");
+        }
+    }
 
 }

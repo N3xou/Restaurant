@@ -15,15 +15,8 @@ namespace Restaurant.Controllers
 		[HttpPost("order")]
 		public async Task<IActionResult> Order(OrderModel cart)
         {
-            bool isSuccess = await _cartService.Order(cart);
-            if (isSuccess)
-            {
-                return Ok("Order placed successfully.");
-            }
-            else
-            {
-                return BadRequest("Failed to place the order.");
-            }
+            int idNumber = await _cartService.Order(cart);
+			return Ok(idNumber);
         }
 
 		//[HttpDelete("remove-product")]
